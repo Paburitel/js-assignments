@@ -56,7 +56,7 @@ function getCicleCircumference(radius) {
  *  -3, 3  => 0
  */
 function getAverage(value1, value2) {
-    // return ((value1 + value2)/2);
+    return (value1/2 + value2/2);
     throw new Error('Not implemented');
 }
 
@@ -221,6 +221,14 @@ function roundToPowerOfTen(num, pow) {
  *   17 => true
  */
 function isPrime(n) {
+    let x;
+    for (let i = 2; i <= n; i++) {
+        x = n%i;
+        if ((x === 0)  && ( i != n)){
+            return false;
+        }
+    };
+    return true;
     throw new Error('Not implemented');
 }
 
@@ -240,9 +248,10 @@ function isPrime(n) {
  *   toNumber(new Number(42), 0) => 42
  */
 function toNumber(value, def) {
+    return +value !== +value ? def : +value;
     throw new Error('Not implemented');
 }
-
+toNumber("dfgdg", 0);
 module.exports = {
     getRectangleArea: getRectangleArea,
     getCicleCircumference: getCicleCircumference,
