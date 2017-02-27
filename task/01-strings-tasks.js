@@ -72,7 +72,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-    let arr = value.split(" ");
+    let arr = value.split(' ');
 
     return `${arr[1]} ${arr[2].slice(0, -1)}`
     throw new Error('Not implemented');
@@ -143,6 +143,7 @@ function repeatString(value, count) {
  *   'ABABAB','BA' => 'ABAB'
  */
 function removeFirstOccurrences(str, value) {
+    return str.replace(value , '');
     throw new Error('Not implemented');
 }
 
@@ -158,6 +159,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
+    return str.slice(1, -1);
     throw new Error('Not implemented');
 }
 
@@ -173,6 +175,7 @@ function unbracketTag(str) {
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
 function convertToUpperCase(str) {
+    return str.toUpperCase();
     throw new Error('Not implemented');
 }
 
@@ -187,6 +190,7 @@ function convertToUpperCase(str) {
  *   'info@gmail.com' => ['info@gmail.com']
  */
 function extractEmails(str) {
+    return str.split(';');
     throw new Error('Not implemented');
 }
 
@@ -214,6 +218,51 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
+    let str = '';
+    for (let i = 0 ; i < height ; i++) {
+        let rowStr = '';
+        for (let j = 0 ; j < width; j++) {
+            if (i == 0) {
+                if (j === 0) {
+                    rowStr = `${rowStr}┌`;
+                    continue;
+                }
+                if (j === width - 1) {
+                    rowStr = `${rowStr}┐`;
+                    continue;
+                }
+                rowStr = `${rowStr}─`;
+            }
+            if (i > 0 && i < height-1) {
+                if(j === 0) {
+                    rowStr = `${rowStr}│`;
+                    continue;
+                }
+                if(j === width-1) {
+                    rowStr = `${rowStr}│`;
+                    continue;
+                }
+                rowStr = `${rowStr} `;
+            }
+            if (i === height-1){
+                if (j === 0) {
+                    rowStr = `${rowStr}└`;
+                    continue;
+                }
+                if (j === width - 1) {
+                    rowStr = `${rowStr}┘`;
+                    continue;
+                }
+                rowStr = `${rowStr}─`;
+
+            }
+
+        }
+        rowStr = `${rowStr}\n`;
+        str = `${str}${rowStr}`;
+    }
+    return str;
+
     throw new Error('Not implemented');
 }
 
@@ -234,6 +283,18 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
+    let arrChar = [];
+    for (let i = 0; i < str.length; i++) {
+        arrChar.push(str[i].charCodeAt(0));
+    };
+    function getRot13(n) {
+        if (n < 65 || n > 122) return String.fromCharCode(n);
+        if(n <97) {
+            return n<78 ? String.fromCharCode(n+13) : String.fromCharCode(n-13);
+        }
+        return n<110 ? String.fromCharCode(n+13) : String.fromCharCode(n-13);
+    }
+    return arrChar.reduce((sum, i) => sum + getRot13(i), '');
     throw new Error('Not implemented');
 }
 
@@ -251,8 +312,9 @@ function encodeToRot13(str) {
  *   isString(new String('test')) => true
  */
 function isString(value) {
-    throw new Error('Not implemented');
+    return (Object.prototype.toString.call(value) === '[object String]');
 }
+
 
 
 /**
@@ -280,6 +342,38 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
+    let base;
+    switch (value[value.length-1]){
+        case '♣':
+            base = 0;
+            break;
+        case '♦':
+            base = 13;
+            break;
+        case '♥':
+            base = 26;
+            break;
+        default :
+            base = 39;
+    }
+    switch (value[0]) {
+        case 'A':
+            base = base;
+            break;
+        case 'J':
+            base = base + 10;
+            break;
+        case 'Q':
+            base = base + 11;
+            break;
+        case 'K':
+            base = base + 12;
+            break;
+        default:
+            const num = parseInt(value, 10);
+            base = base + num - 1;
+    }
+    return base;
     throw new Error('Not implemented');
 }
 
